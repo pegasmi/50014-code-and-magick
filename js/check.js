@@ -1,8 +1,8 @@
   'use strict';
   function getMessage (a, b) {
 
-    if((typeof a === 'boolean') && (typeof a === true)) {
-      return 'Я попал в' + b;
+    if(a === true) {
+      return ('Я попал в ' + b);
     } else if (a === false) {
       return 'Я никуда не попал';
     }
