@@ -19,7 +19,6 @@
     }
 
     if((typeof a === 'object') && (typeof b === 'object')) {
-
       while(a.length > b.length) {
         b.push(0);
       }
@@ -29,7 +28,7 @@
       }
 
       var length = a.map(function(value, index) {
-        return (value + b[index]);
+        return (value * b[index]);
       })
 
       length = length.reduce(function(count, current) {
