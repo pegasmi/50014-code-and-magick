@@ -26,12 +26,8 @@
       var length = a.length > b.length ? a : b;
       var slave = length === a ? b : a;
 
-      length = length.map(function(value, index) {
-        return value * (slave[index] || 0);
-      });
-
-      length = length.reduce(function(count, current) {
-        return count + current;
+      length = length.reduce(function(count, current, index) {
+        return count + (current * slave[index] || 0);
       });
       return 'Я прошёл ' + length + ' метров';
     }
