@@ -1,13 +1,13 @@
   'use strict';
 /**
- * @param {(array|number|boolean)} a
- * @param {(array|number|boolean)} b
- * @returm {string} 
+ * @param {Array.<number>|number|boolean} a
+ * @param {Array.<number>|number|boolean} b
+ * @return {string} 
  */
   function getMessage (a, b) {
     if(a === true) {
-      return ('Я попал в ' + b);
-    } else if (a === false) {
+      return 'Я попал в ' + b;
+    } else if(a === false) {
       return 'Я никуда не попал';
     }
 
@@ -23,12 +23,12 @@
     }
 
     if(Array.isArray(a) && Array.isArray(b)) {
-      var length = a.length > b.length ? a : b;
-      var slave = length === a ? b : a;
+      var length = a.length > b.length ? b : a;
+
 
       length = length.reduce(function(count, current, index) {
-        return count + (current * slave[index] || 0);
-      });
+        return count + (a[index] * b[index] || 0);
+      }, 0);
       return 'Я прошёл ' + length + ' метров';
     }
   return 'Ой';
