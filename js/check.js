@@ -23,12 +23,9 @@
     }
 
     if(Array.isArray(a) && Array.isArray(b)) {
-      var length = a.length > b.length ? b : a;
-
-
-      length = length.reduce(function(count, current, index) {
-        return count + (a[index] * b[index] || 0);
-      }, 0);
+      var length = a.reduce(function(count, current, index) {
+        return count + current * (b[index] || 0);
+    }, 0);
       return 'Я прошёл ' + length + ' метров';
     }
   return 'Ой';
