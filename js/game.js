@@ -380,20 +380,54 @@
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+        this._drawMessage(this.ctx,'Победил, а мог бы и уступить девочке');
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+        this._drawMessage(this.ctx,'Проиграл, а мог бы и выиграть для девочки');
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+        this._drawMessage(this.ctx,'ЭЭээээээ...');
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+        this._drawMessage(this.ctx,'Добрый вечер, поубиваем кого-нибудь?');
           break;
       }
     },
-
+    _drawMessageContainer: function() {
+      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+      this.ctx.fillRect(70,70,300,100);
+      this.ctx.fillStyle = 'white';
+      this.ctx.fillRect(60,60,300,100);
+      },
+    _drawMessageText: function(context, text) {
+      //this.ctx.lineWidth = 15;
+      this.ctx.fillStyle = 'black';
+      this.ctx.font = '16px PT Mono';
+      var maxWidth = 300; 
+      var lineHeight = 18;
+      var marginLeft = 70;
+      var marginTop = 80;
+      var words = text.split(" ");
+        var wordsSeparate = words.length;
+        var line = "";
+        for (var i = 0; i < wordsSeparate; i++) {
+            var firstLine = line + words[i] + " ";
+            var fullWidth = context.measureText(firstLine).width;
+            if (fullWidth > maxWidth) {
+                context.fillText(line, marginLeft, marginTop);
+                line = words[i] + " ";
+                marginTop += lineHeight;
+            }
+            else {
+                line = firstLine;
+            }
+        }
+        context.fillText(line, marginLeft, marginTop);
+    },
+    _drawMessage: function (context, text) {
+      this._drawMessageContainer();
+      this._drawMessageText(context, text);
+    },
     /**
      * Предзагрузка необходимых изображений для уровня.
      * @param {function} callback
@@ -620,6 +654,8 @@
      * @private
      */
     _onKeyDown: function(evt) {
+      var canvas = document.querySelector('canvas');
+
       switch (evt.keyCode) {
         case 37:
           this.state.keysPressed.LEFT = true;
