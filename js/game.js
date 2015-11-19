@@ -389,44 +389,66 @@
           this._drawMessage(this.ctx, 'ЭЭээээээ...');
           break;
         case Verdict.INTRO:
-          this._drawMessage(this.ctx, 'Добрый вечер, поубиваем кого-нибудь?');
+          this._drawMessage(this.ctx, 'Добрый вечер, поубиваем кого-нибудь? Добрый вечер, поубиваем кого-нибудь? Добрый вечер, поубиваем кого-нибудь? Добрый вечер, поубиваем кого-нибудь?');
           break;
       }
     },
-    _drawMessageContainer: function() {
-      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-      this.ctx.fillRect(70, 70, 300, 100);
-      this.ctx.fillStyle = 'white';
-      this.ctx.fillRect(60, 60, 300, 100);
-    },
-    _drawMessageText: function(context, text) {
-      //this.ctx.lineWidth = 15;
-      this.ctx.fillStyle = 'black';
-      this.ctx.font = '16px PT Mono';
-      var maxWidth = 300;
+    _drawMessage: function(context, text) {
       var lineHeight = 18;
-      var marginLeft = 70;
-      var marginTop = 80;
-      var linesSummuryHeight = [];
+      context.font = '16px PT Mono';
+      var pharagraph = this._calcMessage(context, text);
+
+      var x = 60;
+      var y = 70;
+
+      this._drawMessageContainer(context, x - 10, y, pharagraph.width + 10, pharagraph.height + 10);
+      this._drawText(context, x, y + lineHeight, pharagraph.pharagraph, lineHeight);
+    },
+    /**
+     * Отрисовка окна сообщения
+     */
+    _drawMessageContainer: function(context, x, y, width, height) {
+      context.fillStyle = 'rgba(0, 0, 0, 0.7)';
+      context.fillRect(x + 10, y + 10, width, height);
+      context.fillStyle = 'white';
+      context.fillRect(x, y, width, height);
+    },
+    /**
+     * Разбивка по строкам текста
+     */
+    _calcMessage: function(context, text) {
+      var lineHeight = 18;
+      var maxWidth = 250;
       var words = text.split(' ');
       var wordsSeparate = words.length;
+      var pharagraph = [];
       var line = '';
       for (var i = 0; i < wordsSeparate; i++) {
         var firstLine = line + words[i] + ' ';
         var fullWidth = context.measureText(firstLine).width;
         if (fullWidth > maxWidth) {
-          context.fillText(line, marginLeft, marginTop);
+          pharagraph.push(line);
           line = words[i] + ' ';
-          marginTop += lineHeight;
         } else {
           line = firstLine;
         }
       }
-      context.fillText(line, marginLeft, marginTop);
+      pharagraph.push(line);
+
+      return {
+        pharagraph: pharagraph,
+        width: maxWidth,
+        height: lineHeight * pharagraph.length
+      };
     },
-    _drawMessage: function(context, text) {
-      this._drawMessageContainer();
-      this._drawMessageText(context, text);
+    /**
+     * Отрисовка текста
+     */
+    _drawText: function(context, x, y, pharagraph, lineHeight) {
+      context.fillStyle = 'black';
+      pharagraph.forEach(function(line, index) {
+        context.fillText(line, x, y + lineHeight * index);
+      });
     },
     /**
      * Предзагрузка необходимых изображений для уровня.
@@ -654,8 +676,6 @@
      * @private
      */
     _onKeyDown: function(evt) {
-      var canvas = document.querySelector('canvas');
-
       switch (evt.keyCode) {
         case 37:
           this.state.keysPressed.LEFT = true;
