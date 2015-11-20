@@ -391,7 +391,7 @@
         case Verdict.INTRO:
           this._drawMessage(this.ctx, 'Добрый вечер, поубиваем кого-нибудь? ' +
           'Добрый вечер, поубиваем кого-нибудь? ' + 'Добрый вечер, поубиваем кого-нибудь? '
-          + 'Добрый вечер, поубиваем кого-нибудь? ');
+          + 'Добрый вечер, поубиваем кого-нибудь? ' );
           break;
       }
     },
@@ -407,8 +407,8 @@
 
       var x = 60;
       var y = 70;
-      this._drawMessageContainer(context, x - 10, y, pharagraph.width + 10, pharagraph.height + 10);
-      this._drawText(context, x, y + lineHeight, pharagraph.pharagraph, lineHeight);
+      this._drawMessageContainer(context, x, y, pharagraph.width + 10, pharagraph.height + 10);
+      this._drawText(context, x + 30, y + lineHeight, pharagraph.pharagraph, lineHeight);
     },
      /**
      * Отрисовка контейнера для сообщения
@@ -419,11 +419,26 @@
      * @param {number} height - высота отрисовываемого контейнера
      * @private
      */
-    _drawMessageContainer: function(context, x, y, width, height) {
+    _drawMessageContainer: function(context, x, y) {
+      x = x + (Math.round(Math.random() * (20)));
+      y = y + (Math.round(Math.random() * (20)));
+      console.log(x, y);
+      context.beginPath();
+      context.moveTo(125, 20);
+      context.lineTo(x + 410, y + 10);
+      context.lineTo(y + 290, x + 140);
+      context.lineTo(x + 10, y + 110);
       context.fillStyle = 'rgba(0, 0, 0, 0.7)';
-      context.fillRect(x + 10, y + 10, width, height);
+      context.fill();
+      context.closePath();
+      context.beginPath();
+      context.moveTo(75, 50);
+      context.lineTo(x + 400, y + 0);
+      context.lineTo(y + 280, x + 130);
+      context.lineTo(x + 0, y + 100);
       context.fillStyle = 'white';
-      context.fillRect(x, y, width, height);
+      context.fill();
+      context.closePath();
     },
     /**
      * Расчет высоты сообщения
