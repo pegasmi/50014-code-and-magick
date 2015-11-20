@@ -389,10 +389,17 @@
           this._drawMessage(this.ctx, 'ЭЭээээээ...');
           break;
         case Verdict.INTRO:
-          this._drawMessage(this.ctx, 'Добрый вечер, поубиваем кого-нибудь? Добрый вечер, поубиваем кого-нибудь? Добрый вечер, поубиваем кого-нибудь? Добрый вечер, поубиваем кого-нибудь?');
+          this._drawMessage(this.ctx, 'Добрый вечер, поубиваем кого-нибудь? ' +
+          'Добрый вечер, поубиваем кого-нибудь? ' + 'Добрый вечер, поубиваем кого-нибудь? '
+          + 'Добрый вечер, поубиваем кого-нибудь? ');
           break;
       }
     },
+    /**
+     * @param {object} CanvasRenderingContext2D
+     * @param {string} text - текст для отрисовки внутри контейнера
+     * @private
+     */
     _drawMessage: function(context, text) {
       var lineHeight = 18;
       context.font = '16px PT Mono';
@@ -400,12 +407,17 @@
 
       var x = 60;
       var y = 70;
-
       this._drawMessageContainer(context, x - 10, y, pharagraph.width + 10, pharagraph.height + 10);
       this._drawText(context, x, y + lineHeight, pharagraph.pharagraph, lineHeight);
     },
-    /**
-     * Отрисовка окна сообщения
+     /**
+     * Отрисовка контейнера для сообщения
+     * @param {object} CanvasRenderingContext2D
+     * @param {number} x - координата по оси x
+     * @param {number} y - координата по оси y
+     * @param {number} width - ширина отрисовываемого контейнера
+     * @param {number} height - высота отрисовываемого контейнера
+     * @private
      */
     _drawMessageContainer: function(context, x, y, width, height) {
       context.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -414,7 +426,13 @@
       context.fillRect(x, y, width, height);
     },
     /**
-     * Разбивка по строкам текста
+     * Расчет высоты сообщения
+     * @param {object} CanvasRenderingContext2D
+     * @param {string} text - текст для отрисовки внутри контейнера
+     * @return {array} pharagraph - массив текста, разбитый построчно
+     * @return {number} maxWidth - максимальная ширина контейнера для отрисовки текста
+     * @return {number} lineHeight - высота строки
+     * @private
      */
     _calcMessage: function(context, text) {
       var lineHeight = 18;
@@ -424,12 +442,13 @@
       var pharagraph = [];
       var line = '';
       for (var i = 0; i < wordsSeparate; i++) {
-        var firstLine = line + words[i] + ' ';
+        var firstLine = line + words[i] + '';
         var fullWidth = context.measureText(firstLine).width;
         if (fullWidth > maxWidth) {
           pharagraph.push(line);
           line = words[i] + ' ';
         } else {
+          firstLine = line + words[i] + ' ';
           line = firstLine;
         }
       }
@@ -443,6 +462,12 @@
     },
     /**
      * Отрисовка текста
+     * @param {object} CanvasRenderingContext2D
+     * @param {number} x - координата по оси x
+     * @param {number} y - координата по оси y
+     * @param {array} pharagraph - массив текста, разбитый построчно
+     * @param {number} lineHeight - высота строки
+     * @private
      */
     _drawText: function(context, x, y, pharagraph, lineHeight) {
       context.fillStyle = 'black';
