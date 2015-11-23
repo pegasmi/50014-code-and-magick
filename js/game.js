@@ -502,7 +502,7 @@
     },
     /**
      * Предзагрузка необходимых изображений для уровня.
-     * @param {Function} callback
+     * @param Function
      * @private
      */
     _preloadImagesForLevel: function(callback) {
