@@ -428,15 +428,15 @@
      * @private
      */
     _drawMessageContainer: function(context, x, y, width, height) {
-      function randomizer(count) {
+      function randomCoordinate(count) {
         return Math.round(Math.random() * (count));
       }
       context.beginPath();
       context.moveTo(125, 30);
       context.lineTo(STEP, STEP);
-      context.lineTo(width + STEP + randomizer(20), STEP);
-      context.lineTo(width + STEP + randomizer(20), height + STEP + randomizer(20));
-      context.lineTo(STEP, height + STEP + randomizer(20));
+      context.lineTo(width + STEP + randomCoordinate(20), STEP);
+      context.lineTo(width + STEP + randomCoordinate(20), height + STEP + randomCoordinate(20));
+      context.lineTo(STEP, height + STEP + randomCoordinate(20));
       context.lineTo(STEP, STEP);
       context.fillStyle = 'rgba(0, 0, 0, 0.7)';
       context.fill();
@@ -445,9 +445,9 @@
       context.beginPath();
       context.moveTo(125, 30);
       context.lineTo(STEP, STEP);
-      context.lineTo(width + STEP + randomizer(20), STEP);
-      context.lineTo(width + STEP + randomizer(20), height + STEP + randomizer(20));
-      context.lineTo(STEP, height + STEP + randomizer(20));
+      context.lineTo(width + STEP + randomCoordinate(20), STEP);
+      context.lineTo(width + STEP + randomCoordinate(20), height + STEP + randomCoordinate(20));
+      context.lineTo(STEP, height + STEP + randomCoordinate(20));
       context.lineTo(STEP, STEP);
       context.fillStyle = '#fff';
       context.fill();
@@ -472,9 +472,9 @@
         var fullWidth = context.measureText(firstLine).width;
         if (fullWidth > maxWidth) {
           pharagraph.push(line);
-          line = words[i] + ' ';
+          line = words[i];
         } else {
-          firstLine = line + words[i] + ' ';
+          firstLine = line + ' ' + words[i];
           line = firstLine;
         }
       });
@@ -495,7 +495,7 @@
      * @private
      */
     _drawText: function(context, x, y, pharagraph, lineHeight) {
-      context.fillStyle = 'black';
+      context.fillStyle = '#000';
       pharagraph.forEach(function(line, index) {
         context.fillText(line, x, y + lineHeight * index);
       });
