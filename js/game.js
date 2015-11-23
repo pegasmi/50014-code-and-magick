@@ -14,6 +14,11 @@
   var WIDTH = 700;
 
   /**
+   * @const
+   * @type {number}
+   */
+  var STEP = 50;
+  /**
    * ID уровней.
    * @enum {number}
    */
@@ -389,21 +394,24 @@
           this._drawMessage(this.ctx, 'ЭЭээээээ...');
           break;
         case Verdict.INTRO:
-          this._drawMessage(this.ctx, 'Добрый вечер, поубиваем кого-нибудь? ' +
-          'Добрый вечер, поубиваем кого-нибудь? ' + 'Добрый вечер, поубиваем кого-нибудь? '
-          + 'Добрый вечер, поубиваем кого-нибудь? ' );
+          this._drawMessage(this.ctx, 'Добрый вечер, поубиваем кого-нибудь? '
+          + 'Добрый вечер, поубиваем кого-нибудь? '
+          + 'Добрый вечер, поубиваем кого-нибудь? '
+          + 'Добрый вечер, поубиваем кого-нибудь? '
+          );
           break;
       }
     },
     /**
-     * @param {object} CanvasRenderingContext2D
-     * @param {string} text - текст для отрисовки внутри контейнера
+     * @param {CanvasRenderingContext2D} context
+     * @param {string} text текст для отрисовки внутри контейнера
      * @private
      */
     _drawMessage: function(context, text) {
-      var lineHeight = 18;
-      context.font = '16px PT Mono';
-      var pharagraph = this._calcMessage(context, text);
+      var fontSize = 16;
+      var lineHeight = Math.round(fontSize * 1.2);
+      context.font = fontSize + 'px PT Mono';
+      var pharagraph = this._calcMessage(context, text, lineHeight);
 
       var x = 60;
       var y = 50;
@@ -412,21 +420,23 @@
     },
      /**
      * Отрисовка контейнера для сообщения
-     * @param {object} CanvasRenderingContext2D
-     * @param {number} x - координата по оси x
-     * @param {number} y - координата по оси y
-     * @param {number} width - ширина отрисовываемого контейнера
-     * @param {number} height - высота отрисовываемого контейнера
+     * @param {CanvasRenderingContext2D} context
+     * @param {number} x координата по оси x
+     * @param {number} y координата по оси y
+     * @param {number} width ширина отрисовываемого контейнера
+     * @param {number} height высота отрисовываемого контейнера
      * @private
      */
     _drawMessageContainer: function(context, x, y, width, height) {
-      var STEP = 50;
+      function randomizer(count) {
+        return Math.round(Math.random() * (count));
+      }
       context.beginPath();
       context.moveTo(125, 30);
       context.lineTo(STEP, STEP);
-      context.lineTo(width + STEP + (Math.round(Math.random() * (20))), STEP);
-      context.lineTo(width + STEP + (Math.round(Math.random() * (20))), height + STEP + (Math.round(Math.random() * (20))));
-      context.lineTo(STEP, height + STEP + (Math.round(Math.random() * (20))));
+      context.lineTo(width + STEP + randomizer(20), STEP);
+      context.lineTo(width + STEP + randomizer(20), height + STEP + randomizer(20));
+      context.lineTo(STEP, height + STEP + randomizer(20));
       context.lineTo(STEP, STEP);
       context.fillStyle = 'rgba(0, 0, 0, 0.7)';
       context.fill();
@@ -435,32 +445,30 @@
       context.beginPath();
       context.moveTo(125, 30);
       context.lineTo(STEP, STEP);
-      context.lineTo(width + STEP + (Math.round(Math.random() * (20))), STEP);
-      context.lineTo(width + STEP + (Math.round(Math.random() * (20))), height + STEP + (Math.round(Math.random() * (20))));
-      context.lineTo(STEP, height + STEP + (Math.round(Math.random() * (20))));
+      context.lineTo(width + STEP + randomizer(20), STEP);
+      context.lineTo(width + STEP + randomizer(20), height + STEP + randomizer(20));
+      context.lineTo(STEP, height + STEP + randomizer(20));
       context.lineTo(STEP, STEP);
-      context.fillStyle = 'white';
+      context.fillStyle = '#fff';
       context.fill();
       context.closePath();
     },
     /**
      * Расчет высоты сообщения
-     * @param {object} CanvasRenderingContext2D
-     * @param {string} text - текст для отрисовки внутри контейнера
-     * @return {array} pharagraph - массив текста, разбитый построчно
-     * @return {number} maxWidth - максимальная ширина контейнера для отрисовки текста
-     * @return {number} lineHeight - высота строки
+     * @param {CanvasRenderingContext2D} context
+     * @param {string} text текст для отрисовки внутри контейнера
+     * @return Array.<string> массив текста, разбитый построчно
+     * @return {number} maxWidth максимальная ширина контейнера для отрисовки текста
+     * @return {number} lineHeight высота строки
      * @private
      */
-    _calcMessage: function(context, text) {
-      var lineHeight = 18;
+    _calcMessage: function(context, text, lineHeight) {
       var maxWidth = 250;
       var words = text.split(' ');
-      var wordsSeparate = words.length;
       var pharagraph = [];
       var line = '';
-      for (var i = 0; i < wordsSeparate; i++) {
-        var firstLine = line + words[i] + '';
+      words.forEach(function(word, i) {
+        var firstLine = line + words[i];
         var fullWidth = context.measureText(firstLine).width;
         if (fullWidth > maxWidth) {
           pharagraph.push(line);
@@ -469,9 +477,8 @@
           firstLine = line + words[i] + ' ';
           line = firstLine;
         }
-      }
+      });
       pharagraph.push(line);
-
       return {
         pharagraph: pharagraph,
         width: maxWidth,
@@ -480,11 +487,11 @@
     },
     /**
      * Отрисовка текста
-     * @param {object} CanvasRenderingContext2D
-     * @param {number} x - координата по оси x
-     * @param {number} y - координата по оси y
-     * @param {array} pharagraph - массив текста, разбитый построчно
-     * @param {number} lineHeight - высота строки
+     * @param {CanvasRenderingContext2D} context
+     * @param {number} x координата по оси x
+     * @param {number} y координата по оси y
+     * @param Array.<string> массив текста, разбитый построчно
+     * @param {number} lineHeight высота строки
      * @private
      */
     _drawText: function(context, x, y, pharagraph, lineHeight) {
@@ -495,7 +502,7 @@
     },
     /**
      * Предзагрузка необходимых изображений для уровня.
-     * @param {function} callback
+     * @param {Function} callback
      * @private
      */
     _preloadImagesForLevel: function(callback) {
