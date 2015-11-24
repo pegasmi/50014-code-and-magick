@@ -1,6 +1,7 @@
 'use strict';
 
 (function() {
+
   /**
    * @const
    * @type {number}
@@ -18,6 +19,7 @@
    * @type {number}
    */
   var STEP = 50;
+
   /**
    * ID уровней.
    * @enum {number}
@@ -264,6 +266,7 @@
   };
 
   Game.prototype = {
+
     /**
      * Текущий уровень игры.
      * @type {Level}
@@ -380,17 +383,17 @@
     },
 
     /**
-     * Отрисовка экрана паузы.
+     * Отрисовка экрана паузы
      */
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
         case Verdict.WIN:
           this._drawMessage(this.ctx, 'Я дерусь, потому что я дерусь! '
-          + 'Где у вас ближайший черный пруд? ');
+          + 'Где у вас ближайший черный пруд?');
           break;
         case Verdict.FAIL:
           this._drawMessage(this.ctx, 'На волоске судьба твоя, враги полны отваги '
-          + 'но, слава богу, есть друзья и у друзей есть шпаги' );
+          + 'но, слава богу, есть друзья и у друзей есть шпаги');
           break;
         case Verdict.PAUSE:
           this._drawMessage(this.ctx, 'А не пора ли нам подкрепиться? ');
@@ -405,6 +408,7 @@
     },
 
     /**
+     * Отрисовка текста сообщения
      * @param {CanvasRenderingContext2D} context
      * @param {string} text текст для отрисовки внутри контейнера
      * @private
@@ -414,7 +418,6 @@
       var lineHeight = Math.round(fontSize * 1.2);
       context.font = fontSize + 'px PT Mono';
       var pharagraph = this._calcMessage(context, text, lineHeight);
-
       var x = 70;
       var y = 60;
       this._drawMessageContainer(context, x, y, pharagraph.width + 40, pharagraph.height + 30);
@@ -453,9 +456,8 @@
      * Расчет высоты сообщения
      * @param {CanvasRenderingContext2D} context
      * @param {string} text текст для отрисовки внутри контейнера
-     * @return {Array.<string>} массив текста, разбитый построчно
-     * @return {number} maxWidth максимальная ширина контейнера для отрисовки текста
-     * @return {number} lineHeight высота строки
+     * @param {number} lineHeight высота строки
+     * @return {Object}
      * @private
      */
     _calcMessage: function(context, text, lineHeight) {
@@ -502,7 +504,7 @@
 
     /**
      * Предзагрузка необходимых изображений для уровня.
-     * @param Function
+     * @param {Function}
      * @private
      */
     _preloadImagesForLevel: function(callback) {
@@ -595,11 +597,13 @@
       }
 
       if (!this.commonRules) {
+
         /**
          * Проверки, не зависящие от уровня, но влияющие на его состояние.
          * @type {Array.<functions(Object):Verdict>}
          */
         this.commonRules = [
+
           /**
            * Если персонаж мертв, игра прекращается.
            * @param {Object} state
