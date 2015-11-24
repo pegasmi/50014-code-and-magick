@@ -385,19 +385,19 @@
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          this._drawMessage(this.ctx, 'Победил, а мог бы и уступить девочке');
+          this._drawMessage(this.ctx, 'Я дерусь, потому что я дерусь! '
+          + 'А побеждаю я потому что побеждаю! Эхей!');
           break;
         case Verdict.FAIL:
-          this._drawMessage(this.ctx, 'Проиграл, а мог бы и выиграть для девочки');
+          this._drawMessage(this.ctx, 'Когда твой друг в крови, ala guerre comma ala guerre ');
           break;
         case Verdict.PAUSE:
-          this._drawMessage(this.ctx, 'ЭЭээээээ...');
+          this._drawMessage(this.ctx, 'А не пора ли нам подкрепиться? ');
           break;
         case Verdict.INTRO:
-          this._drawMessage(this.ctx, 'Добрый вечер, поубиваем кого-нибудь? '
-          + 'Добрый вечер, поубиваем кого-нибудь? '
-          + 'Добрый вечер, поубиваем кого-нибудь? '
-          + 'Добрый вечер, поубиваем кого-нибудь? '
+          this._drawMessage(this.ctx, 'Тысяча чертей, как я рад тебя видеть, щенок! '
+          + 'Давай убьем очередную каналью! '
+          + 'А то и внеочередную!'
           );
           break;
       }
@@ -413,9 +413,9 @@
       context.font = fontSize + 'px PT Mono';
       var pharagraph = this._calcMessage(context, text, lineHeight);
 
-      var x = 60;
-      var y = 50;
-      this._drawMessageContainer(context, x, y, pharagraph.width + 10, pharagraph.height + 10);
+      var x = 70;
+      var y = 60;
+      this._drawMessageContainer(context, x, y, pharagraph.width + 40, pharagraph.height + 30);
       this._drawText(context, x, y + lineHeight, pharagraph.pharagraph, lineHeight);
     },
      /**
@@ -431,7 +431,7 @@
       function randomCoordinate(count) {
         return Math.round(Math.random() * (count));
       }
-      context.beginPath();
+      /*context.beginPath();
       context.moveTo(125, 30);
       context.lineTo(STEP, STEP);
       context.lineTo(width + STEP + randomCoordinate(20), STEP);
@@ -440,7 +440,7 @@
       context.lineTo(STEP, STEP);
       context.fillStyle = 'rgba(0, 0, 0, 0.7)';
       context.fill();
-      context.closePath();
+      context.closePath();*/
 
       context.beginPath();
       context.moveTo(125, 30);
@@ -450,6 +450,9 @@
       context.lineTo(STEP, height + STEP + randomCoordinate(20));
       context.lineTo(STEP, STEP);
       context.fillStyle = '#fff';
+      context.shadowColor = 'rgba(0, 0, 0, 0.7)';
+      context.shadowOffsetX = 10;
+      context.shadowOffsetY = 10;
       context.fill();
       context.closePath();
     },
@@ -496,6 +499,8 @@
      */
     _drawText: function(context, x, y, pharagraph, lineHeight) {
       context.fillStyle = '#000';
+      context.shadowOffsetX = 0;
+      context.shadowOffsetY = 0;
       pharagraph.forEach(function(line, index) {
         context.fillText(line, x, y + lineHeight * index);
       });
