@@ -386,10 +386,11 @@
       switch (this.state.currentStatus) {
         case Verdict.WIN:
           this._drawMessage(this.ctx, 'Я дерусь, потому что я дерусь! '
-          + 'А побеждаю я потому что побеждаю! Эхей!');
+          + 'Где у вас ближайший черный пруд? ');
           break;
         case Verdict.FAIL:
-          this._drawMessage(this.ctx, 'Когда твой друг в крови, ala guerre comma ala guerre ');
+          this._drawMessage(this.ctx, 'На волоске судьба твоя, враги полны отваги '
+          + 'но, слава богу, есть друзья и у друзей есть шпаги' );
           break;
         case Verdict.PAUSE:
           this._drawMessage(this.ctx, 'А не пора ли нам подкрепиться? ');
@@ -402,6 +403,7 @@
           break;
       }
     },
+
     /**
      * @param {CanvasRenderingContext2D} context
      * @param {string} text текст для отрисовки внутри контейнера
@@ -418,6 +420,7 @@
       this._drawMessageContainer(context, x, y, pharagraph.width + 40, pharagraph.height + 30);
       this._drawText(context, x, y + lineHeight, pharagraph.pharagraph, lineHeight);
     },
+
      /**
      * Отрисовка контейнера для сообщения
      * @param {CanvasRenderingContext2D} context
@@ -429,19 +432,8 @@
      */
     _drawMessageContainer: function(context, x, y, width, height) {
       function randomCoordinate(count) {
-        return Math.round(Math.random() * (count));
+        return Math.round(Math.random() * count);
       }
-      /*context.beginPath();
-      context.moveTo(125, 30);
-      context.lineTo(STEP, STEP);
-      context.lineTo(width + STEP + randomCoordinate(20), STEP);
-      context.lineTo(width + STEP + randomCoordinate(20), height + STEP + randomCoordinate(20));
-      context.lineTo(STEP, height + STEP + randomCoordinate(20));
-      context.lineTo(STEP, STEP);
-      context.fillStyle = 'rgba(0, 0, 0, 0.7)';
-      context.fill();
-      context.closePath();*/
-
       context.beginPath();
       context.moveTo(125, 30);
       context.lineTo(STEP, STEP);
@@ -456,11 +448,12 @@
       context.fill();
       context.closePath();
     },
+
     /**
      * Расчет высоты сообщения
      * @param {CanvasRenderingContext2D} context
      * @param {string} text текст для отрисовки внутри контейнера
-     * @return Array.<string> массив текста, разбитый построчно
+     * @return {Array.<string>} массив текста, разбитый построчно
      * @return {number} maxWidth максимальная ширина контейнера для отрисовки текста
      * @return {number} lineHeight высота строки
      * @private
@@ -477,7 +470,7 @@
           pharagraph.push(line);
           line = words[i];
         } else {
-          firstLine = line + ' ' + words[i];
+          firstLine = line + (line ? ' ' : '') + words[i];
           line = firstLine;
         }
       });
@@ -488,12 +481,13 @@
         height: lineHeight * pharagraph.length
       };
     },
+
     /**
      * Отрисовка текста
      * @param {CanvasRenderingContext2D} context
      * @param {number} x координата по оси x
      * @param {number} y координата по оси y
-     * @param Array.<string> массив текста, разбитый построчно
+     * @param {Array.<string>} массив текста, разбитый построчно
      * @param {number} lineHeight высота строки
      * @private
      */
@@ -505,6 +499,7 @@
         context.fillText(line, x, y + lineHeight * index);
       });
     },
+
     /**
      * Предзагрузка необходимых изображений для уровня.
      * @param Function
