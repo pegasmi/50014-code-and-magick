@@ -456,7 +456,7 @@
      * @param {CanvasRenderingContext2D} context
      * @param {string} text текст для отрисовки внутри контейнера
      * @param {number} lineHeight высота строки
-     * @return {Object} параметры для отрисовки контейнера с правильной высотой
+     * @return {Object.<string[], number, number>} параметры для отрисовки контейнера с правильной высотой
      * @private
      */
     _calcMessage: function(context, text, lineHeight) {
