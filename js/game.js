@@ -456,7 +456,7 @@
      * @param {CanvasRenderingContext2D} context
      * @param {string} text текст для отрисовки внутри контейнера
      * @param {number} lineHeight высота строки
-     * @return {Object.<string[], number, number>} параметры для отрисовки контейнера с правильной высотой
+     * @return {{paragraph: Array.<string>, width: number, height: number}} параметры для отрисовки контейнера с правильной высотой
      * @private
      */
     _calcMessage: function(context, text, lineHeight) {
@@ -502,7 +502,7 @@
     },
 
     /**
-     * Предзагрузка необходимых изображений для уровня.
+     * Предзагрузка необходимых изображений для уровня
      * @param {Function} callback функция-коллбек
      * @private
      */
@@ -596,13 +596,11 @@
       }
 
       if (!this.commonRules) {
-
         /**
          * Проверки, не зависящие от уровня, но влияющие на его состояние.
          * @type {Array.<functions(Object):Verdict>}
          */
         this.commonRules = [
-
           /**
            * Если персонаж мертв, игра прекращается.
            * @param {Object} state
