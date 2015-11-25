@@ -1,7 +1,6 @@
 'use strict';
 
 (function() {
-
   /**
    * @const
    * @type {number}
@@ -266,7 +265,6 @@
   };
 
   Game.prototype = {
-
     /**
      * Текущий уровень игры.
      * @type {Level}
@@ -383,7 +381,7 @@
     },
 
     /**
-     * Отрисовка экрана паузы
+     * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
@@ -407,7 +405,7 @@
     },
 
     /**
-     * Отрисовка текста сообщения
+     * Отрисовка текста сообщения.
      * @param {CanvasRenderingContext2D} context
      * @param {string} text текст для отрисовки внутри контейнера
      * @private
@@ -424,7 +422,7 @@
     },
 
      /**
-     * Отрисовка контейнера для сообщения
+     * Отрисовка контейнера для сообщения.
      * @param {CanvasRenderingContext2D} context
      * @param {number} x координата по оси x
      * @param {number} y координата по оси y
@@ -452,7 +450,7 @@
     },
 
     /**
-     * Расчет высоты сообщения
+     * Расчет высоты сообщения.
      * @param {CanvasRenderingContext2D} context
      * @param {string} text текст для отрисовки внутри контейнера
      * @param {number} lineHeight высота строки
@@ -484,7 +482,7 @@
     },
 
     /**
-     * Отрисовка текста
+     * Отрисовка текста.
      * @param {CanvasRenderingContext2D} context
      * @param {number} x координата по оси x
      * @param {number} y координата по оси y
@@ -502,7 +500,7 @@
     },
 
     /**
-     * Предзагрузка необходимых изображений для уровня
+     * Предзагрузка необходимых изображений для уровня.
      * @param {Function} callback функция-коллбек
      * @private
      */
