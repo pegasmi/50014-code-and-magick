@@ -382,6 +382,7 @@
 
     /**
      * Отрисовка экрана паузы.
+     * @private
      */
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
@@ -391,7 +392,7 @@
           break;
         case Verdict.FAIL:
           this._drawMessage(this.ctx, 'На волоске судьба твоя, враги полны отваги '
-          + 'но, слава богу, есть друзья и у друзей есть шпаги');
+          + 'но, слава богу, есть друзья и у друзей есть шпаги...');
           break;
         case Verdict.PAUSE:
           this._drawMessage(this.ctx, 'А не пора ли нам подкрепиться?');
@@ -421,7 +422,7 @@
       this._drawText(context, x, y + lineHeight, pharagraph.pharagraph, lineHeight);
     },
 
-     /**
+    /**
      * Отрисовка контейнера для сообщения.
      * @param {CanvasRenderingContext2D} context
      * @param {number} x координата по оси x
@@ -454,7 +455,7 @@
      * @param {CanvasRenderingContext2D} context
      * @param {string} text текст для отрисовки внутри контейнера
      * @param {number} lineHeight высота строки
-     * @return {{paragraph: Array.<string>, width: number, height: number}} параметры для отрисовки контейнера с правильной высотой
+     * @return {{pharagraph: Array.<string>, width: number, height: number}} параметры для отрисовки контейнера с правильной высотой
      * @private
      */
     _calcMessage: function(context, text, lineHeight) {
