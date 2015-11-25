@@ -488,7 +488,7 @@
      * @param {CanvasRenderingContext2D} context
      * @param {number} x координата по оси x
      * @param {number} y координата по оси y
-     * @param {Array.<string>} массив текста, разбитый построчно
+     * @param {Array.<string>} pharagraph массив текста, разбитый построчно
      * @param {number} lineHeight высота строки
      * @private
      */
@@ -503,7 +503,7 @@
 
     /**
      * Предзагрузка необходимых изображений для уровня.
-     * @param {Function} функция-коллбек
+     * @param {Function} callback функция-коллбек
      * @private
      */
     _preloadImagesForLevel: function(callback) {
