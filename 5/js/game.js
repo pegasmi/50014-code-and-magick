@@ -456,7 +456,7 @@
      * @param {CanvasRenderingContext2D} context
      * @param {string} text текст для отрисовки внутри контейнера
      * @param {number} lineHeight высота строки
-     * @return {Object}
+     * @return {Object.<string[], number, number>} параметры для отрисовки контейнера с правильной высотой
      * @private
      */
     _calcMessage: function(context, text, lineHeight) {
@@ -503,7 +503,7 @@
 
     /**
      * Предзагрузка необходимых изображений для уровня.
-     * @param {Function}
+     * @param {Function} функция-коллбек
      * @private
      */
     _preloadImagesForLevel: function(callback) {
