@@ -64,9 +64,11 @@
   function buttonTogler() {
     if (formReviewText.required && formReviewText.value) {
       reviewSubmitBtn.disabled = false;
-    } else if (formReviewText.required && formReviewText.value !== false) {
+    } else if (formReviewText.required && !formReviewText.value) {
       reviewSubmitBtn.disabled = true;
-    } else if (formReviewText.required === false && formReviewName.value !== '') {
+    } else if (!formReviewText.required && !formReviewName.value) {
+      reviewSubmitBtn.disabled = true;
+    } else if (!formReviewText.required && formReviewName.value) {
       reviewSubmitBtn.disabled = false;
     }
   }
