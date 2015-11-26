@@ -21,14 +21,15 @@
     elementShow(formContainer);
   };
 
+  var valueChecker = new Event('change');
   formReviewText.required = true;
 
   for (var i = 0; formMarks.length > i; i++) {
     formMarks[i].addEventListener('change', function(evt) {
       if (evt.target.value < 4) {
         formReviewText.required = true;
-        elementHidden(reviewFieldsText);
-        buttonTogler();
+        formReviewName.dispatchEvent(valueChecker);
+        formReviewText.dispatchEvent(valueChecker);
       } else {
         formReviewText.required = false;
         elementShow(reviewFieldsText);
@@ -64,8 +65,10 @@
       reviewSubmitBtn.disabled = false;
     } else if (formReviewText.required && formReviewText.value !== false) {
       reviewSubmitBtn.disabled = true;
-    } else if (formReviewText.required === false) {
+    } else if (formReviewText.required === false && formReviewName.value !== '') {
       reviewSubmitBtn.disabled = false;
+    } else if (formReviewText.required === false) {
+      reviewSubmitBtn.disabled = true;
     }
   }
 
