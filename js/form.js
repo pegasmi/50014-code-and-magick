@@ -22,11 +22,10 @@
   };
 
   var valueChecker = new Event('change');
-  formReviewText.required = true;
 
   for (var i = 0; formMarks.length > i; i++) {
     formMarks[i].addEventListener('change', function(evt) {
-      if (evt.target.value < 4) {
+      if (evt.target.value < 3) {
         formReviewText.required = true;
         formReviewName.dispatchEvent(valueChecker);
         formReviewText.dispatchEvent(valueChecker);
@@ -39,22 +38,24 @@
   }
 
   formReviewName.addEventListener('change', function() {
-    if (this.value && this.value.match(/^[А-Яа-яЁё\s]+$/)) {
+    if (this.value && formReviewText.required === true) {
+      elementShow(reviewFieldsName);
+      buttonTogler();
+    } else if (this.value && formReviewText.required === false) {
+      elementShow(reviewFieldsText);
       elementShow(reviewFieldsName);
       buttonTogler();
     } else {
-      this.value = '';
       elementHidden(reviewFieldsName);
       buttonTogler();
     }
   });
 
   formReviewText.addEventListener('change', function() {
-    if (this.value && this.value.match(/^[А-Яа-яЁё\s]+$/)) {
+    if (this.value) {
       elementShow(reviewFieldsText);
       buttonTogler();
     } else {
-      this.value = '';
       elementHidden(reviewFieldsText);
       buttonTogler();
     }
@@ -67,8 +68,6 @@
       reviewSubmitBtn.disabled = true;
     } else if (formReviewText.required === false && formReviewName.value !== '') {
       reviewSubmitBtn.disabled = false;
-    } else if (formReviewText.required === false) {
-      reviewSubmitBtn.disabled = true;
     }
   }
 
