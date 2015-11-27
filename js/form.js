@@ -4,81 +4,91 @@
   var formContainer = document.querySelector('.overlay-container');
   var formOpenButton = document.querySelector('.reviews-controls-new');
   var formCloseButton = document.querySelector('.review-form-close');
-  var formMarks = document.querySelectorAll('input[name="review-mark"]');
   var formReviewText = document.querySelector('#review-text');
   var formReviewName = document.querySelector('#review-name');
+  var formReviewFields = document.querySelector('.review-fields');
+  var formReviewLabels = document.querySelectorAll('.review-fields-label');
+  var reviewFields = document.querySelectorAll('.review-form-field');
   var reviewFieldsName = document.querySelector('.review-fields-name');
   var reviewFieldsText = document.querySelector('.review-fields-text');
   var reviewSubmitBtn = document.querySelector('.review-submit');
+  var reviewForm = document.querySelector('.review-form');
+  var reviewFormElements = reviewForm.elements.namedItem('review-mark');
 
   formOpenButton.onclick = function(evt) {
-    evt.preventDefault();
-    elementHidden(formContainer);
-  };
-
-  formCloseButton.onclick = function(evt) {
     evt.preventDefault();
     elementShow(formContainer);
   };
 
-  var valueChecker = new Event('change');
+  formCloseButton.onclick = function(evt) {
+    evt.preventDefault();
+    elementHide(formContainer);
+  };
 
-  for (var i = 0; formMarks.length > i; i++) {
-    formMarks[i].addEventListener('change', function(evt) {
-      if (evt.target.value < 3) {
+  for (var i = 0; reviewFormElements.length > i; i++) {
+    reviewFormElements[i].addEventListener('change', function(evt) {
+      if (parseInt(evt.target.value, 10) < 3) {
         formReviewText.required = true;
-        formReviewName.dispatchEvent(valueChecker);
-        formReviewText.dispatchEvent(valueChecker);
+        reviewSubmitBtn.disabled = formValid();
       } else {
         formReviewText.required = false;
-        elementShow(reviewFieldsText);
-        buttonTogler();
+        reviewSubmitBtn.disabled = formValid();
       }
     });
   }
 
-  formReviewName.addEventListener('change', function() {
-    if (this.value && formReviewText.required === true) {
-      elementShow(reviewFieldsName);
-      buttonTogler();
-    } else if (this.value && formReviewText.required === false) {
-      elementShow(reviewFieldsText);
-      elementShow(reviewFieldsName);
-      buttonTogler();
-    } else {
-      elementHidden(reviewFieldsName);
-      buttonTogler();
+  function formValid() {
+    if (formReviewText.value && formReviewName.value) {
+      elementHide(formReviewFields);
+      return false;
     }
-  });
-
-  formReviewText.addEventListener('change', function() {
-    if (this.value) {
-      elementShow(reviewFieldsText);
-      buttonTogler();
-    } else {
-      elementHidden(reviewFieldsText);
-      buttonTogler();
+    if (formReviewText.value && !formReviewName.value) {
+      reviewClassClear();
+      elementShow(formReviewFields);
+      elementHide(reviewFieldsText);
+      return true;
     }
-  });
-
-  function buttonTogler() {
-    if (formReviewText.required && formReviewText.value) {
-      reviewSubmitBtn.disabled = false;
-    } else if (formReviewText.required && !formReviewText.value) {
-      reviewSubmitBtn.disabled = true;
-    } else if (!formReviewText.required && !formReviewName.value) {
-      reviewSubmitBtn.disabled = true;
-    } else if (!formReviewText.required && formReviewName.value) {
-      reviewSubmitBtn.disabled = false;
+    if (formReviewText.required && !formReviewText.value && formReviewName.value) {
+      reviewClassClear();
+      elementShow(formReviewFields);
+      elementHide(reviewFieldsName);
+      return true;
+    }
+    if (formReviewText.required && !formReviewText.value && !formReviewName.value) {
+      elementShow(formReviewFields);
+      return true;
+    }
+    if (!formReviewText.required && !formReviewText.value && !formReviewName.value) {
+      reviewClassClear();
+      elementShow(formReviewFields);
+      elementHide(reviewFieldsText);
+      return true;
+    }
+    if (!formReviewText.required && formReviewName.value) {
+      elementHide(formReviewFields);
+      return false;
     }
   }
 
-  function elementShow(el) {
+  function reviewClassClear() {
+    for (var j = 0; formReviewLabels.length > j; j++) {
+      formReviewLabels[j].classList.remove('invisible');
+    }
+  }
+
+  for (var h = 0; reviewFields.length > h; h++) {
+    reviewFields[h].addEventListener('change', function() {
+      reviewSubmitBtn.disabled = formValid();
+    });
+  }
+
+  function elementHide(el) {
     el.classList.add('invisible');
   }
 
-  function elementHidden(el) {
+  function elementShow(el) {
     el.classList.remove('invisible');
   }
 
 })();
+
