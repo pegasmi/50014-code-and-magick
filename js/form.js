@@ -20,7 +20,6 @@
   //Кнопка отправки
   var reviewSubmitBtn = reviewForm.querySelector('.review-submit');
 
-
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
     formContainer.classList.remove('invisible');
