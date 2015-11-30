@@ -51,7 +51,7 @@
 
   function changeHandler() {
     reviewValidate().forEach(showElement);
-    reviewSubmitBtn.disabled = !notificationContainer.classList.contains('invisible');
+    reviewSubmitBtn.disabled = !reviewValidate()[2][1];
   }
 
   reviewForm.addEventListener('change', changeHandler);
