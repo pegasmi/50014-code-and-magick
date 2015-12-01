@@ -17,6 +17,9 @@
   var notificationName = reviewForm.querySelector('.review-fields-name');
   var notificationReview = reviewForm.querySelector('.review-fields-text');
 
+  var nameValue;
+  var reviewValue;
+
   //Кнопка отправки
   var reviewSubmitBtn = reviewForm.querySelector('.review-submit');
 
@@ -32,8 +35,8 @@
 
   function reviewValidate() {
     var badMark = reviewFormMarks.value < 3;
-    var nameValue = !fieldName.value;
-    var reviewValue = badMark && !fieldReview.value;
+    nameValue = !fieldName.value;
+    reviewValue = badMark && !fieldReview.value;
     return [
       [notificationName, !nameValue],
       [notificationReview, !reviewValue],
@@ -49,9 +52,17 @@
     }
   }
 
+  function disableButton() {
+    if (!nameValue && !reviewValue) {
+      reviewSubmitBtn.disabled = false;
+    } else {
+      reviewSubmitBtn.disabled = true;
+    }
+  }
+
   function changeHandler() {
     reviewValidate().forEach(showElement);
-    reviewSubmitBtn.disabled = !reviewValidate()[2][1];
+    disableButton();
   }
 
   reviewForm.addEventListener('change', changeHandler);
