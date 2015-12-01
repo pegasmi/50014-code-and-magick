@@ -52,20 +52,11 @@
     }
   }
 
-  function disableButton() {
-    if (!nameValue && !reviewValue) {
-      reviewSubmitBtn.disabled = false;
-    } else {
-      reviewSubmitBtn.disabled = true;
-    }
-  }
-
   function changeHandler() {
     reviewValidate().forEach(showElement);
-    disableButton();
+    reviewSubmitBtn.disabled = nameValue || reviewValue;
   }
 
   reviewForm.addEventListener('change', changeHandler);
   changeHandler();
-
 })();
