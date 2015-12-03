@@ -55,7 +55,7 @@
 
   function restoreCookies() {
     user.value = docCookies.getItem('user-name');
-    var number = parseInt(docCookies.getItem('сhecked-mark'), 10) - 1;
+    var number = parseInt(docCookies.getItem('checked-mark'), 10) - 1;
     var checkedMark = form.elements.namedItem('review-mark')[number];
     checkedMark.checked = true;
   }
@@ -87,4 +87,3 @@
   reviewForm.addEventListener('change', changeHandler);
   changeHandler();
 })();
-
