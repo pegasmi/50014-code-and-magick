@@ -8,7 +8,6 @@
   var mark = form.elements.namedItem('review-mark');
   var user = document.querySelector('.review-form-field-name');
 
-
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
     formContainer.classList.remove('invisible');
