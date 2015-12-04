@@ -29,7 +29,6 @@
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
     formContainer.classList.remove('invisible');
-    restoreCookies();
   };
 
   formCloseButton.onclick = function(evt) {
@@ -45,12 +44,12 @@
   });
 
   function getCookieLife() {
-    var now = +Date.now();
-    var myLastBirthday = new Date('2015, 03, 28');
-    var sinceMyLastBirthday = now - +myLastBirthday;
-    var cookiesDeleteDate = now + sinceMyLastBirthday;
-    var result = new Date(cookiesDeleteDate);
-    return result;
+    var now = new Date();
+    var year = now.getFullYear();
+    var myLastBirthday = new Date(year, 3, 28);
+    var sinceMyLastBirthday = +now - +myLastBirthday;
+    var cookiesDeleteDayRound = Math.floor(sinceMyLastBirthday / 1000 / 60 / 60 / 24);
+    return cookiesDeleteDayRound * 24 * 60 * 60;
   }
 
   function restoreCookies() {
@@ -58,7 +57,9 @@
     var number = parseInt(docCookies.getItem('checked-mark'), 10) - 1;
     var checkedMark = form.elements.namedItem('review-mark')[number];
     checkedMark.checked = true;
+    mark.value = number + 1;
   }
+  restoreCookies();
 
   function reviewValidate() {
     var badMark = reviewFormMarks.value < 3;
