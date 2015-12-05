@@ -26,6 +26,21 @@
   //Кнопка отправки
   var reviewSubmitBtn = reviewForm.querySelector('.review-submit');
 
+  //Дата удаления куки
+  var deleteDate = new Date();
+  var myLastBirthday = new Date(new Date().getFullYear(), 12, 28);
+  var myLastBirthdayDiff;
+
+  if (myLastBirthday < new Date()) {
+    myLastBirthdayDiff = +new Date() - +myLastBirthday;
+  } else {
+    myLastBirthdayDiff = +myLastBirthday - +new Date();
+  }
+
+  var sinceInDays = Math.floor(myLastBirthdayDiff / 1000 / 60 / 60 / 24);
+  deleteDate.setDate(deleteDate.getDate() + sinceInDays);
+
+
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
     formContainer.classList.remove('invisible');
@@ -38,26 +53,19 @@
 
   form.addEventListener('submit', function(evt) {
     evt.preventDefault();
-    docCookies.setItem('checked-mark', mark.value, getCookieLife());
-    docCookies.setItem('user-name', user.value, getCookieLife());
+    docCookies.setItem('checked-mark', mark.value, deleteDate);
+    docCookies.setItem('user-name', user.value, deleteDate);
     formContainer.classList.add('invisible');
   });
 
-  function getCookieLife() {
-    var now = new Date();
-    var year = now.getFullYear();
-    var myLastBirthday = new Date(year, 3, 28);
-    var sinceMyLastBirthday = +now - +myLastBirthday;
-    var cookiesDeleteDayRound = Math.floor(sinceMyLastBirthday / 1000 / 60 / 60 / 24);
-    return cookiesDeleteDayRound * 24 * 60 * 60;
-  }
-
   function restoreCookies() {
-    user.value = docCookies.getItem('user-name');
-    var number = parseInt(docCookies.getItem('checked-mark'), 10) - 1;
-    var checkedMark = form.elements.namedItem('review-mark')[number];
-    checkedMark.checked = true;
-    mark.value = number + 1;
+    if (docCookies.hasItem('user-name') && docCookies.hasItem('checked-mark')) {
+      user.value = docCookies.getItem('user-name');
+      var number = parseInt(docCookies.getItem('checked-mark'), 10) - 1;
+      var checkedMark = form.elements.namedItem('review-mark')[number];
+      checkedMark.checked = true;
+      mark.value = number + 1;
+    }
   }
   restoreCookies();
 
