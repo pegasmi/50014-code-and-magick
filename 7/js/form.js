@@ -40,7 +40,6 @@
   var sinceInDays = Math.floor(myLastBirthdayDiff / 1000 / 60 / 60 / 24);
   deleteDate.setDate(deleteDate.getDate() + sinceInDays);
 
-
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
     formContainer.classList.remove('invisible');
