@@ -28,15 +28,15 @@
 
   //Дата удаления куки
   var deleteDate = new Date();
-  var myLastBirthday = new Date(new Date().getFullYear(), 12, 28);
-  var myLastBirthdayDiff;
+  var myLastBirthday = new Date(new Date().getFullYear(), 2, 28);
 
-  if (myLastBirthday < new Date()) {
-    myLastBirthdayDiff = +new Date() - +myLastBirthday;
+  if (myLastBirthday > new Date()) {
+    myLastBirthday = new Date(new Date().getFullYear() - 1, 2, 28);
   } else {
-    myLastBirthdayDiff = +myLastBirthday - +new Date();
+    myLastBirthday = myLastBirthday;
   }
 
+  var myLastBirthdayDiff = +new Date() - +myLastBirthday;
   var sinceInDays = Math.floor(myLastBirthdayDiff / 1000 / 60 / 60 / 24);
   deleteDate.setDate(deleteDate.getDate() + sinceInDays);
 
@@ -62,8 +62,6 @@
     if (docCookies.hasItem('user-name') && docCookies.hasItem('checked-mark')) {
       user.value = docCookies.getItem('user-name');
       var number = parseInt(docCookies.getItem('checked-mark'), 10) - 1;
-      var checkedMark = form.elements.namedItem('review-mark')[number];
-      checkedMark.checked = true;
       mark.value = number + 1;
     }
   }
