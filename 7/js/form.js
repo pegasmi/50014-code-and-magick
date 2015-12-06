@@ -32,7 +32,7 @@
    */
   var SECONDS_IN_DAY = 60 * 60 * 24;
 
-  function deleteCookies() {
+  function setCookiesDeleteDate() {
     var currentDate = new Date();
     var myLastBirthday = new Date(currentDate.getFullYear(), 2, 28);
 
@@ -56,7 +56,7 @@
 
   form.addEventListener('submit', function(evt) {
     evt.preventDefault();
-    var deleteCookiesDate = deleteCookies();
+    var deleteCookiesDate = setCookiesDeleteDate();
     docCookies.setItem('checked-mark', mark.value, deleteCookiesDate);
     docCookies.setItem('user-name', user.value, deleteCookiesDate);
     formContainer.classList.add('invisible');
