@@ -29,8 +29,9 @@
   //Дата удаления куки
   var deleteCookiesDate;
 
-  //Константа времени
+  //Константы времени
   var MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
+  var SECONDS_IN_DAY = 60 * 60 * 24;
 
   function deleteCookies() {
     var currentDate = new Date();
@@ -41,7 +42,7 @@
     }
 
     var diffInDays = Math.floor((currentDate - myLastBirthday) / MILLISECONDS_IN_DAY);
-    deleteCookiesDate = diffInDays * 60 * 60 * 24;
+    deleteCookiesDate = diffInDays * SECONDS_IN_DAY;
   }
 
   formOpenButton.onclick = function(evt) {
