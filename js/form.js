@@ -30,21 +30,18 @@
   var deleteCookiesDate;
 
   //Константы времени
-  var MILLISECONDS_IN_SECONDS = 1000;
-  var SECONDS_IN_MINUTES = 60;
-  var MINURES_IN_HOUR = 60;
-  var HOURS_IN_DAY = 24;
+  var MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
 
   function deleteCookies() {
     var currentDate = new Date();
     var myLastBirthday = new Date(currentDate.getFullYear(), 2, 28);
 
     if (myLastBirthday > currentDate) {
-      myLastBirthday = new Date(currentDate.getFullYear() - 1, 2, 28);
+      myLastBirthday.setFullYear(myLastBirthday.getFullYear() - 1);
     }
 
-    var diffInDays = Math.floor((currentDate - myLastBirthday) / MILLISECONDS_IN_SECONDS / SECONDS_IN_MINUTES / MINURES_IN_HOUR / HOURS_IN_DAY);
-    var diffInMillisecondsRound = diffInDays * MILLISECONDS_IN_SECONDS * SECONDS_IN_MINUTES * MINURES_IN_HOUR * HOURS_IN_DAY;
+    var diffInDays = Math.floor((currentDate - myLastBirthday) / MILLISECONDS_IN_DAY);
+    var diffInMillisecondsRound = diffInDays * MILLISECONDS_IN_DAY;
     deleteCookiesDate = new Date(+currentDate + diffInMillisecondsRound);
   }
 
