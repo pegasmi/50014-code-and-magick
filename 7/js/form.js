@@ -27,15 +27,26 @@
   var reviewSubmitBtn = reviewForm.querySelector('.review-submit');
 
   //Дата удаления куки
-  var currentDate = new Date();
-  var myLastBirthday = new Date(currentDate.getFullYear(), 2, 28);
+  var deleteCookiesDate;
 
-  if (myLastBirthday > currentDate) {
-    myLastBirthday = new Date(currentDate.getFullYear() - 1, 2, 28);
+  //Константы времени
+  var MILLISECONDS_IN_SECONDS = 1000;
+  var SECONDS_IN_MINUTES = 60;
+  var MINURES_IN_HOUR = 60;
+  var HOURS_IN_DAY = 24;
+
+  function deleteCookies() {
+    var currentDate = new Date();
+    var myLastBirthday = new Date(currentDate.getFullYear(), 2, 28);
+
+    if (myLastBirthday > currentDate) {
+      myLastBirthday = new Date(currentDate.getFullYear() - 1, 2, 28);
+    }
+
+    var diffInDays = Math.floor((currentDate - myLastBirthday) / MILLISECONDS_IN_SECONDS / SECONDS_IN_MINUTES / MINURES_IN_HOUR / HOURS_IN_DAY);
+    var diffInMillisecondsRound = diffInDays * MILLISECONDS_IN_SECONDS * SECONDS_IN_MINUTES * MINURES_IN_HOUR * HOURS_IN_DAY;
+    deleteCookiesDate = new Date(+currentDate + diffInMillisecondsRound);
   }
-
-  var myLastBirthdayDiff = currentDate - myLastBirthday;
-  var deleteCookiesDate = new Date(+currentDate + myLastBirthdayDiff);
 
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
@@ -49,6 +60,7 @@
 
   form.addEventListener('submit', function(evt) {
     evt.preventDefault();
+    deleteCookies();
     docCookies.setItem('checked-mark', mark.value, deleteCookiesDate);
     docCookies.setItem('user-name', user.value, deleteCookiesDate);
     formContainer.classList.add('invisible');
