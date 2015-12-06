@@ -26,11 +26,10 @@
   //Кнопка отправки
   var reviewSubmitBtn = reviewForm.querySelector('.review-submit');
 
-  //Дата удаления куки
-  var deleteCookiesDate;
-
-  //Константы времени
-  var MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
+  /**
+   * @const
+   * @type {number}
+   */
   var SECONDS_IN_DAY = 60 * 60 * 24;
 
   function deleteCookies() {
@@ -41,8 +40,8 @@
       myLastBirthday.setFullYear(myLastBirthday.getFullYear() - 1);
     }
 
-    var diffInDays = Math.floor((currentDate - myLastBirthday) / MILLISECONDS_IN_DAY);
-    deleteCookiesDate = diffInDays * SECONDS_IN_DAY;
+    var diffInDays = Math.floor((currentDate - myLastBirthday) / 1000 / SECONDS_IN_DAY);
+    return diffInDays * SECONDS_IN_DAY;
   }
 
   formOpenButton.onclick = function(evt) {
@@ -57,7 +56,7 @@
 
   form.addEventListener('submit', function(evt) {
     evt.preventDefault();
-    deleteCookies();
+    var deleteCookiesDate = deleteCookies();
     docCookies.setItem('checked-mark', mark.value, deleteCookiesDate);
     docCookies.setItem('user-name', user.value, deleteCookiesDate);
     formContainer.classList.add('invisible');
