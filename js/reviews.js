@@ -29,7 +29,7 @@
       template.setAttribute('display', 'none');
     }
 
-    element.querySelector('.review-rating').textContent = data.rating;
+    element.querySelector('.review-rating').textContent = "";
     element.querySelector('.review-text').textContent = data.description;
 
     var picture = new Image(124, 124);
