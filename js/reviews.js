@@ -11,6 +11,7 @@
     'four',
     'five'
   ];
+  var IMAGE_TIMEOUT = 1000;
 
   filter.classList.add('.invisible');
 
@@ -29,7 +30,7 @@
       template.setAttribute('display', 'none');
     }
 
-    element.querySelector('.review-rating').textContent = "";
+    element.querySelector('.review-rating').textContent = '';
     element.querySelector('.review-text').textContent = data.description;
 
     var picture = new Image(124, 124);
@@ -41,7 +42,7 @@
     var imageLoadTimeout = setTimeout(function() {
       picture.src = '';
       element.classList.add('review-load-failure');
-    }, 1000);
+    }, IMAGE_TIMEOUT);
 
     picture.onload = function() {
       clearTimeout(imageLoadTimeout);
