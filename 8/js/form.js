@@ -30,7 +30,7 @@
    * @const
    * @type {number}
    */
-  var MILLISECONDS_IN_SEC = 1000;
+  var SECONDS_IN_DAY = 60 * 60 * 24;
 
   function getExpire() {
     var currentDate = new Date();
@@ -40,8 +40,8 @@
       myLastBirthday.setFullYear(myLastBirthday.getFullYear() - 1);
     }
 
-    var diffInDays = Math.floor((currentDate - myLastBirthday) / MILLISECONDS_IN_SEC);
-    return diffInDays;
+    var diffInDays = Math.floor((currentDate - myLastBirthday) / 1000 / SECONDS_IN_DAY);
+    return diffInDays * SECONDS_IN_DAY;
   }
 
   formOpenButton.onclick = function(evt) {
