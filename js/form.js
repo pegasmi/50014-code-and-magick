@@ -41,7 +41,7 @@
     }
 
     var diffInDays = Math.floor((currentDate - myLastBirthday) / 1000 / SECONDS_IN_DAY);
-    return diffInDays;
+    return diffInDays * SECONDS_IN_DAY;
   }
 
   formOpenButton.onclick = function(evt) {
