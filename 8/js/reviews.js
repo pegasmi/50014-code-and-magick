@@ -14,37 +14,45 @@
   ];
   var IMAGE_TIMEOUT = 1000;
 
-  reviews.forEach(function(review) {
-    var cloneElement = getElementFromTemplate(review);
-    container.appendChild(cloneElement);
-  });
-
   if (!container.firstChild) {
     filter.classList.add('invisible');
   }
 
-  function getElementFromTemplate(data) {
-    var element;
+  var elementParent = checkContent();
 
+  function checkContent() {
     if ('content' in template) {
-      element = template.content.children[0].cloneNode(true);
+      return template.content;
     } else {
-      element = template.children[0].cloneNode(true);
-      template.setAttribute('display', 'none');
+      template.style.display = 'none';
+      return template;
     }
+  }
 
+  if (Array.isArray(reviews)) {
+    reviews.forEach(function(review) {
+      var cloneElement = getElementFromTemplate(review);
+      container.appendChild(cloneElement);
+    });
+  }
+
+  function getElementFromTemplate(data) {
+    var element = elementParent.children[0].cloneNode(true);
     element.querySelector('.review-rating').textContent = '';
     element.querySelector('.review-text').textContent = data.description;
 
     var picture = new Image(124, 124);
 
-    var imageLoadTimeout = setTimeout(function() {
+    var failure = function() {
       picture.src = '';
       element.classList.add('review-load-failure');
-    }, IMAGE_TIMEOUT);
+    };
+
+    var timeOut = setTimeout(failure, IMAGE_TIMEOUT);
+    picture.onerror = failure;
 
     picture.onload = function() {
-      clearTimeout(imageLoadTimeout);
+      clearTimeout(timeOut);
     };
 
     picture.classList.add('review-author');
