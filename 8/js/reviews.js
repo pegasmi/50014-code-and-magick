@@ -12,15 +12,22 @@
     'four',
     'five'
   ];
+ /**
+  * @const
+  * @type {number}
+  **/
   var IMAGE_TIMEOUT = 1000;
 
-  if (!container.firstChild) {
+  if (reviews.length === 0) {
     filter.classList.add('invisible');
   }
 
-  var elementParent = checkContent();
+  var elementParent = getTemplateContent();
 
-  function checkContent() {
+ /**
+  * @returns {object} HTML как document-fragment
+  **/
+  function getTemplateContent() {
     if ('content' in template) {
       return template.content;
     } else {
@@ -35,7 +42,10 @@
       container.appendChild(cloneElement);
     });
   }
-
+ /**
+  * @param {Array.<Object>} data
+  * @return {Element}
+  **/
   function getElementFromTemplate(data) {
     var element = elementParent.children[0].cloneNode(true);
     element.querySelector('.review-rating').textContent = '';
@@ -49,7 +59,7 @@
     };
 
     var timeOut = setTimeout(failure, IMAGE_TIMEOUT);
-    picture.onerror = failure;
+    picture.onerror = clearTimeout(failure, timeOut);
 
     picture.onload = function() {
       clearTimeout(timeOut);
