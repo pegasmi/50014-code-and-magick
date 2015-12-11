@@ -41,8 +41,6 @@
       var cloneElement = getElementFromTemplate(review);
       container.appendChild(cloneElement);
     });
-  } else {
-    filter.classList.add('invisible');
   }
  /**
   * @param {Array.<Object>} data
