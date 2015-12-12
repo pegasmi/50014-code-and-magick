@@ -13,8 +13,7 @@
     'five'
   ];
  /**
-  * @const
-  * @type {number}
+  * @const {number}
   **/
   var IMAGE_TIMEOUT = 1000;
 
@@ -25,7 +24,7 @@
   var elementParent = getTemplateContent();
 
  /**
-  * @returns {object} HTML как document-fragment
+  * @returns {Object} HTML как document-fragment
   **/
   function getTemplateContent() {
     if ('content' in template) {
@@ -56,10 +55,11 @@
     var failure = function() {
       picture.src = '';
       element.classList.add('review-load-failure');
+      clearTimeout(timeOut);
     };
 
     var timeOut = setTimeout(failure, IMAGE_TIMEOUT);
-    picture.onerror = clearTimeout(failure, timeOut);
+    picture.onerror = failure;
 
     picture.onload = function() {
       clearTimeout(timeOut);
