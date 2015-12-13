@@ -67,12 +67,12 @@
 
     switch (id) {
       case 'reviews-recent':
-        var HALF_YEAR = 60 * 60 * 24 * 182 * 1000;
 
         filteredReviews = filteredReviews.filter(function(a) {
+          var currentDate = new Date();
+          var currentHalfYear = new Date(currentDate.getFullYear(), currentDate.getMonth() - 6, currentDate.getDay());
           var dateComment = new Date(a.date);
-          var date = new Date(Date.now() - HALF_YEAR);
-          return dateComment >= date;
+          return dateComment >= currentHalfYear;
         });
 
         filteredReviews = filteredReviews.sort(function(a, b) {
