@@ -9,7 +9,6 @@
 
   //работа с фильтрами
   var filter = document.querySelector('.reviews-filter');
-  var filters = filter.elements.namedItem('reviews');
   var activeFilter = 'reviews-all';
   var reviews = [];
   var ratings = [
