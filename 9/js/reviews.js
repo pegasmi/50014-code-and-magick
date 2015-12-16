@@ -23,9 +23,7 @@
   * @const {number}
   */
   var IMAGE_TIMEOUT = 1000;
-  var allReviews = null;
 
-  filter.classList.add('invisible');
   reviewsContainer.classList.add('reviews-list-loading');
 
   loadData('data/reviews.json', function(error, data) {
@@ -34,7 +32,7 @@
       reviewsContainer.classList.add('reviews-load-failure');
       return;
     }
-    allReviews = data;
+    var allReviews = data;
 
     filter.addEventListener('click', function() {
       activeFilter = filter.querySelector('input:checked').value;
@@ -78,22 +76,15 @@
     container.appendChild(fragment);
   }
 
-  function getHalfYear() {
-    var currentDate = new Date();
-    var year = new Date(currentDate.getFullYear());
-    var month = new Date(currentDate.getMonth() - 6);
-    var day = new Date(currentDate.getDay());
-    return new Date(year, month, day);
-  }
-
   function filterReviews(reviews) {
     var filteredReviews = null;
     switch (activeFilter) {
       case 'reviews-recent':
         filteredReviews = reviews.filter(function(a) {
+          var currentDate = new Date();
           var dateComment = new Date(a.date);
-          var currentHalfYear = getHalfYear();
-          return dateComment >= currentHalfYear;
+          currentDate.setMonth(currentDate.getMonth() - 6);
+          return dateComment >= currentDate;
         });
         return filteredReviews.sort(function(a, b) {
           var commitDate = new Date(a.date);
@@ -119,10 +110,12 @@
         return filteredReviews.sort(function(a, b) {
           return b['review-rating'] - a['review-rating'];
         });
-      case 'reviews-all':
-        filteredReviews = reviews;
     }
     return reviews;
+  }
+
+  if (filterReviews().length === 0) {
+    filter.classList.add('invisible');
   }
 
   function checkTemplate() {
@@ -166,7 +159,5 @@
     element.querySelector('.review-rating').classList.add('review-rating-' + RATINGS[data.rating - 1]);
     return element;
   }
-
-  filter.classList.remove('invisible');
 
 })();
