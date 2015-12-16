@@ -49,10 +49,10 @@
     xhr.open('GET', 'data/reviews.json');
 
     xhr.onload = function(event) {
-      if (xhr.status !== 200) {
-        callback(true);
-      } else {
+      if (xhr.status === 200) {
         callback(false, JSON.parse(event.target.response));
+      } else {
+        callback(true);
       }
     };
 
