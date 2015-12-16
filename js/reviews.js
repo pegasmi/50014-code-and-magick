@@ -24,8 +24,8 @@
   */
   var IMAGE_TIMEOUT = 1000;
 
+  filter.classList.add('invisible');
   reviewsContainer.classList.add('reviews-list-loading');
-
   loadData('data/reviews.json', function(error, data) {
     reviewsContainer.classList.remove('reviews-list-loading');
     if (error) {
@@ -33,12 +33,12 @@
       return;
     }
     var allReviews = data;
-
     filter.addEventListener('click', function() {
       activeFilter = filter.querySelector('input:checked').value;
       renderReviews(filterReviews(allReviews));
     });
 
+    filter.classList.remove('invisible');
     renderReviews(filterReviews(allReviews));
   });
 
@@ -76,14 +76,20 @@
     container.appendChild(fragment);
   }
 
+  // function getHalfYear() {
+  //   var currentDate = new Date();
+  //   currentDate.setMonth(currentDate.getMonth() - 6);
+  //   return currentDate;
+  // }
+
   function filterReviews(reviews) {
     var filteredReviews = null;
     switch (activeFilter) {
       case 'reviews-recent':
         filteredReviews = reviews.filter(function(a) {
           var currentDate = new Date();
-          var dateComment = new Date(a.date);
           currentDate.setMonth(currentDate.getMonth() - 6);
+          var dateComment = new Date(a.date);
           return dateComment >= currentDate;
         });
         return filteredReviews.sort(function(a, b) {
@@ -112,10 +118,6 @@
         });
     }
     return reviews;
-  }
-
-  if (filterReviews().length === 0) {
-    filter.classList.add('invisible');
   }
 
   function checkTemplate() {
