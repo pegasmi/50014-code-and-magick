@@ -171,10 +171,9 @@
   }
 
   showReviewsBtn.addEventListener('click', function() {
-    var page = ++currentPage;
     var maxPages = Math.ceil(filterReviews(allReviews).length / REVIEWS_IN_PAGE);
     if (maxPages >= currentPage) {
-      renderReviews(filterReviews(allReviews), page);
+      renderReviews(filterReviews(allReviews), ++currentPage);
     }
     showReviewsBtn.classList.add('invisible');
   });
