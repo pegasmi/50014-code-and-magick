@@ -31,7 +31,6 @@
   filter.classList.add('invisible');
   reviewsContainer.classList.add('reviews-list-loading');
 
-
   loadData('data/reviews.json', function(error, data) {
     reviewsContainer.classList.remove('reviews-list-loading');
     if (error) {
