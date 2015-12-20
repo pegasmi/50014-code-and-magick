@@ -39,14 +39,14 @@
     }
     allReviews = data;
 
-    filter.addEventListener('click', function(evt) {
-      evt.preventDefault();
+    filter.addEventListener('change', function(evt) {
       currentPage = 0;
       activeFilter = evt.target.value;
-      renderReviews(filterReviews(allReviews), currentPage, true);
-      //if (MAX_PAGES > 0) {
+      var reviewsFromFilter = filterReviews(allReviews);
+      renderReviews(reviewsFromFilter, currentPage, true);
+      if (reviewsFromFilter.length > REVIEWS_IN_PAGE) {
         showReviewsBtn.classList.remove('invisible');
-      //}
+      }
     });
 
     filter.classList.remove('invisible');
@@ -173,11 +173,13 @@
   }
 
   showReviewsBtn.addEventListener('click', function() {
-    var MAX_PAGES = Math.ceil(filterReviews(allReviews).length / REVIEWS_IN_PAGE);
-    if (MAX_PAGES >= currentPage) {
+    var maxPages = Math.ceil(filterReviews(allReviews).length / REVIEWS_IN_PAGE) - 1;
+    if (maxPages >= currentPage) {
       renderReviews(filterReviews(allReviews), ++currentPage);
     }
-    showReviewsBtn.classList.add('invisible');
+    if (maxPages <= currentPage) {
+      showReviewsBtn.classList.add('invisible');
+    }
   });
 
 })();
