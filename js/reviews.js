@@ -40,10 +40,13 @@
     allReviews = data;
 
     filter.addEventListener('click', function(evt) {
+      evt.preventDefault();
       currentPage = 0;
       activeFilter = evt.target.value;
       renderReviews(filterReviews(allReviews), currentPage, true);
-      showReviewsBtn.classList.remove('invisible');
+      //if (MAX_PAGES > 0) {
+        showReviewsBtn.classList.remove('invisible');
+      //}
     });
 
     filter.classList.remove('invisible');
@@ -170,8 +173,8 @@
   }
 
   showReviewsBtn.addEventListener('click', function() {
-    var maxPages = Math.ceil(filterReviews(allReviews).length / REVIEWS_IN_PAGE);
-    if (maxPages >= currentPage) {
+    var MAX_PAGES = Math.ceil(filterReviews(allReviews).length / REVIEWS_IN_PAGE);
+    if (MAX_PAGES >= currentPage) {
       renderReviews(filterReviews(allReviews), ++currentPage);
     }
     showReviewsBtn.classList.add('invisible');
