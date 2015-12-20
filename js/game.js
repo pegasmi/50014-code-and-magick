@@ -790,4 +790,30 @@
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
+
+  var scrollTimeout;
+  var demo = document.querySelector('.demo');
+  var clouds = document.querySelector('.header-clouds');
+  var moveClouds = true;
+
+  window.addEventListener('scroll', function() {
+    clearTimeout(scrollTimeout);
+    var topCoordinate = clouds.getBoundingClientRect().top;
+
+    if (moveClouds) {
+      clouds.style.backgroundPosition = topCoordinate + 'px';
+    }
+
+    scrollTimeout = setTimeout(function() {
+      if (clouds.getBoundingClientRect().bottom < 0) {
+        moveClouds = false;
+      } else {
+        moveClouds = true;
+      }
+      if (demo.getBoundingClientRect().bottom < 0) {
+        game.setGameStatus(window.Game.Verdict.PAUSE);
+      }
+    }, 100);
+  });
+
 })();
