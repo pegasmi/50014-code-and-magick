@@ -127,7 +127,7 @@
 
   showReviewsBtn.addEventListener('click', function() {
     var maxPages = Math.ceil(filterReviews(allReviews).length / REVIEWS_IN_PAGE) - 1;
-    if (maxPages >= currentPage) {
+    if (currentPage >= maxPages) {
       renderReviews(filterReviews(allReviews), ++currentPage);
     }
     if (maxPages <= currentPage) {
