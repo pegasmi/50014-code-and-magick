@@ -807,6 +807,7 @@
     scrollTimeout = setTimeout(function() {
       if (clouds.getBoundingClientRect().bottom < 0) {
         moveClouds = false;
+        clouds.style.backgroundPosition = 0 + 'px';
       } else {
         moveClouds = true;
       }
