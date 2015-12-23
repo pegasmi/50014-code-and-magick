@@ -796,44 +796,42 @@
   var moveClouds = true;
 
   function throttle(fn, hold) {
-    var isThrottled = false;
-    var savedArgs;
-    var savedThis;
+    var last = 0;
+    var timer = 0;
+    var handler = function() {
+      timer = 0;
+      last = Date.now();
+      fn.apply(null, arguments);
+    };
 
-    function wrapper() {
-      if (isThrottled) {
-        savedArgs = arguments;
-        savedThis = this;
-        return;
+    return function() {
+      var args = arguments;
+      var now = Date.now();
+      if (now > last + hold) {
+        handler.apply(null, args);
+      } else if (!timer) {
+        timer = setTimeout(function() {
+          handler.apply(null, args);
+        }, last + hold - now);
       }
-
-      fn.apply(this, arguments);
-      isThrottled = true;
-
-      setTimeout(function() {
-        isThrottled = false;
-        if (savedArgs) {
-          wrapper.apply(savedThis, savedArgs);
-          savedArgs = savedThis = null;
-        }
-        if (clouds.getBoundingClientRect().bottom < 0) {
-          moveClouds = false;
-          clouds.style.backgroundPosition = 0 + 'px';
-        } else {
-          moveClouds = true;
-        }
-        if (demo.getBoundingClientRect().bottom < 0) {
-          game.setGameStatus(window.Game.Verdict.PAUSE);
-        }
-      }, hold);
-    }
-    return wrapper;
+    };
   }
 
-  window.addEventListener('scroll', throttle(function() {
-    var topCoordinate = clouds.getBoundingClientRect().top;
+  window.addEventListener('scroll', function() {
     if (moveClouds) {
-      clouds.style.backgroundPosition = topCoordinate + 'px';
+      clouds.style.backgroundPosition = document.body.scrollTop + 'px';
+    }
+  });
+
+  window.addEventListener('scroll', throttle(function() {
+    if (clouds.getBoundingClientRect().bottom < 0) {
+      moveClouds = false;
+      clouds.style.backgroundPosition = 0 + 'px';
+    } else {
+      moveClouds = true;
+    }
+    if (demo.getBoundingClientRect().bottom < 0) {
+      game.setGameStatus(window.Game.Verdict.PAUSE);
     }
   }, 100));
 
