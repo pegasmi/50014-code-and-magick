@@ -790,4 +790,49 @@
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
+
+  var demo = document.querySelector('.demo');
+  var clouds = document.querySelector('.header-clouds');
+  var moveClouds = true;
+
+  function throttle(fn, hold) {
+    var last = 0;
+    var timer = 0;
+    var handler = function() {
+      timer = 0;
+      last = Date.now();
+      fn.apply(null, arguments);
+    };
+
+    return function() {
+      var args = arguments;
+      var now = Date.now();
+      if (now > last + hold) {
+        handler.apply(null, args);
+      } else if (!timer) {
+        timer = setTimeout(function() {
+          handler.apply(null, args);
+        }, last + hold - now);
+      }
+    };
+  }
+
+  window.addEventListener('scroll', throttle(function() {
+    if (clouds.getBoundingClientRect().bottom < 0) {
+      moveClouds = false;
+      clouds.style.backgroundPosition = 0 + 'px';
+    } else {
+      moveClouds = true;
+    }
+    if (demo.getBoundingClientRect().bottom < 0) {
+      game.setGameStatus(window.Game.Verdict.PAUSE);
+    }
+  }, 100));
+
+  window.addEventListener('scroll', function() {
+    if (moveClouds) {
+      clouds.style.backgroundPosition = document.body.scrollTop + 'px';
+    }
+  });
+
 })();
