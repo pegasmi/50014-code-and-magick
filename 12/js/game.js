@@ -817,12 +817,6 @@
     };
   }
 
-  window.addEventListener('scroll', function() {
-    if (moveClouds) {
-      clouds.style.backgroundPosition = document.body.scrollTop + 'px';
-    }
-  });
-
   window.addEventListener('scroll', throttle(function() {
     if (clouds.getBoundingClientRect().bottom < 0) {
       moveClouds = false;
@@ -834,5 +828,11 @@
       game.setGameStatus(window.Game.Verdict.PAUSE);
     }
   }, 100));
+
+  window.addEventListener('scroll', function() {
+    if (moveClouds) {
+      clouds.style.backgroundPosition = document.body.scrollTop + 'px';
+    }
+  });
 
 })();
