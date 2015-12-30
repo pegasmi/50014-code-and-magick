@@ -4,7 +4,6 @@
 (function() {
   //отрисовка по шаблону
   var container = document.querySelector('.reviews-list');
-  // var template = document.querySelector('#review-template');
   var reviewsContainer = document.querySelector('.reviews');
   var showReviewsBtn = document.querySelector('.reviews-controls-more');
 
@@ -127,7 +126,7 @@
 
   showReviewsBtn.addEventListener('click', function() {
     var maxPages = Math.ceil(filterReviews(allReviews).length / REVIEWS_IN_PAGE) - 1;
-    if (currentPage >= maxPages) {
+    if (maxPages >= currentPage) {
       renderReviews(filterReviews(allReviews), ++currentPage);
     }
     if (maxPages <= currentPage) {

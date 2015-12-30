@@ -2,7 +2,7 @@
 
 (function() {
   var template = document.querySelector('#review-template');
-   /**
+  /**
   * @const {number}
   */
   var IMAGE_TIMEOUT = 1000;
