@@ -1,11 +1,15 @@
 'use strict';
 
 (function() {
-  var template = document.querySelector('#review-template');
+  var templateElem = document.querySelector('#review-template');
+  var template = 'content' in templateElem ? templateElem.content : templateElem;
+  templateElem.style.display = 'none';
+
   /**
   * @const {number}
   */
-  var IMAGE_TIMEOUT = 1000;
+  var IMAGE_TIMEOUT = 1000000;
+  // var timeOut;
   /**
    *@param{Object} data
    *@constructor
@@ -24,47 +28,38 @@
 
   function Review(data) {
     this._data = data;
+    this.pictureFailure = this.pictureFailure.bind(this);
+    this.pictureLoad = this.pictureLoad.bind(this);
   }
 
+  Review.prototype.pictureLoad = function() {
+    clearTimeout(this._timeOut);
+  };
+
+  Review.prototype.pictureFailure = function() {
+    this._picture.onerror = null;
+    this._picture.src = '';
+    this.element.classList.add('review-load-failure');
+    clearTimeout(this._timeOut);
+  };
+
   Review.prototype.render = function() {
-
-    function checkTemplate() {
-      if ('content' in template) {
-        return template.content;
-      } else {
-        template.style.display = 'none';
-        return template;
-      }
-    }
-
-    var elementParent = checkTemplate();
-    this.element = elementParent.children[0].cloneNode(true);
+    this.element = template.children[0].cloneNode(true);
     this.element.querySelector('.review-rating').textContent = '';
     this.element.querySelector('.review-text').textContent = this._data.description;
 
-    var picture = new Image(124, 124);
+    this._picture = new Image(124, 124);
 
-    var failure = function() {
-      picture.src = '';
-      this.element.classList.add('review-load-failure');
-      clearTimeout(timeOut);
-    }.bind(this);
+    this._picture.onerror = this.pictureFailure;
+    this._timeOut = setTimeout(this.pictureFailure, IMAGE_TIMEOUT);
+    this._picture.onload = this.pictureLoad;
 
-    var timeOut = setTimeout(failure, IMAGE_TIMEOUT);
-    picture.onerror = failure;
-
-    picture.onload = function() {
-      clearTimeout(timeOut);
-    };
-
-
-    picture.classList.add('review-author');
-    picture.src = this._data.author.picture;
-    picture.title = this._data.author.name;
-    picture.alt = this._data.author.name;
-    this.element.replaceChild(picture, this.element.querySelector('.review-author'));
+    this._picture.classList.add('review-author');
+    this._picture.src = this._data.author.picture;
+    this._picture.title = this._data.author.name;
+    this._picture.alt = this._data.author.name;
+    this.element.replaceChild(this._picture, this.element.querySelector('.review-author'));
     this.element.querySelector('.review-rating').classList.add('review-rating-' + RATINGS[this._data.rating - 1]);
-
   };
 
   window.Review = Review;
