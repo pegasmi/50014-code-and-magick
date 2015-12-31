@@ -4,7 +4,6 @@
 (function() {
   //отрисовка по шаблону
   var container = document.querySelector('.reviews-list');
-  // var template = document.querySelector('#review-template');
   var reviewsContainer = document.querySelector('.reviews');
   var showReviewsBtn = document.querySelector('.reviews-controls-more');
 

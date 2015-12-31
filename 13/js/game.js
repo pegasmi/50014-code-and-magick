@@ -791,29 +791,48 @@
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
 
-  var scrollTimeout;
   var demo = document.querySelector('.demo');
   var clouds = document.querySelector('.header-clouds');
   var moveClouds = true;
 
-  window.addEventListener('scroll', function() {
-    clearTimeout(scrollTimeout);
-    var topCoordinate = clouds.getBoundingClientRect().top;
+  function throttle(fn, hold) {
+    var last = 0;
+    var timer = 0;
+    var handler = function() {
+      timer = 0;
+      last = Date.now();
+      fn.apply(null, arguments);
+    };
 
-    if (moveClouds) {
-      clouds.style.backgroundPosition = topCoordinate + 'px';
+    return function() {
+      var args = arguments;
+      var now = Date.now();
+      if (now > last + hold) {
+        handler.apply(null, args);
+      } else if (!timer) {
+        timer = setTimeout(function() {
+          handler.apply(null, args);
+        }, last + hold - now);
+      }
+    };
+  }
+
+  window.addEventListener('scroll', throttle(function() {
+    if (clouds.getBoundingClientRect().bottom < 0) {
+      moveClouds = false;
+      clouds.style.backgroundPosition = 0 + 'px';
+    } else {
+      moveClouds = true;
     }
+    if (demo.getBoundingClientRect().bottom < 0) {
+      game.setGameStatus(window.Game.Verdict.PAUSE);
+    }
+  }, 100));
 
-    scrollTimeout = setTimeout(function() {
-      if (clouds.getBoundingClientRect().bottom < 0) {
-        moveClouds = false;
-      } else {
-        moveClouds = true;
-      }
-      if (demo.getBoundingClientRect().bottom < 0) {
-        game.setGameStatus(window.Game.Verdict.PAUSE);
-      }
-    }, 100);
+  window.addEventListener('scroll', function() {
+    if (moveClouds) {
+      clouds.style.backgroundPosition = document.body.scrollTop + 'px';
+    }
   });
 
 })();
