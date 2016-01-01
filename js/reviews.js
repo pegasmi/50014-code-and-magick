@@ -1,29 +1,19 @@
+/* global Review: true*/
 'use strict';
 
 (function() {
   //отрисовка по шаблону
   var container = document.querySelector('.reviews-list');
-  var template = document.querySelector('#review-template');
   var reviewsContainer = document.querySelector('.reviews');
   var showReviewsBtn = document.querySelector('.reviews-controls-more');
 
   //работа с фильтрами
   var filter = document.querySelector('.reviews-filter');
   var activeFilter = filter.querySelector('input:checked').value;
- /**
-  * @const {Array.<string>}
-  */
-  var RATINGS = [
-    'one',
-    'two',
-    'three',
-    'four',
-    'five'
-  ];
+
  /**
   * @const {number}
   */
-  var IMAGE_TIMEOUT = 1000;
   var REVIEWS_IN_PAGE = 3;
   var currentPage = 0;
   var allReviews = null;
@@ -78,7 +68,10 @@
   */
   function renderReviews(reviewsToRender, pageNumber, replace) {
     if (replace) {
-      container.innerHTML = '';
+      var renderedElements = container.querySelectorAll('.review');
+      Array.prototype.forEach.call(renderedElements, function(element) {
+        container.removeChild(element);
+      });
     }
     var fragment = document.createDocumentFragment();
     var from = pageNumber * REVIEWS_IN_PAGE;
@@ -86,8 +79,9 @@
     var reviewsOnPage = reviewsToRender.slice(from, to);
 
     reviewsOnPage.forEach(function(review) {
-      var cloneElement = createElement(review);
-      fragment.appendChild(cloneElement);
+      var cloneElement = new Review(review);
+      cloneElement.render();
+      fragment.appendChild(cloneElement.element);
     });
     container.appendChild(fragment);
   }
@@ -128,48 +122,6 @@
         });
     }
     return reviews;
-  }
-
-  function checkTemplate() {
-    if ('content' in template) {
-      return template.content;
-    } else {
-      template.style.display = 'none';
-      return template;
-    }
-  }
- /**
-  * @param {Object} data
-  * @return {Element}
-  */
-  function createElement(data) {
-    var elementParent = checkTemplate();
-    var element = elementParent.children[0].cloneNode(true);
-    element.querySelector('.review-rating').textContent = '';
-    element.querySelector('.review-text').textContent = data.description;
-
-    var picture = new Image(124, 124);
-
-    var failure = function() {
-      picture.src = '';
-      element.classList.add('review-load-failure');
-      clearTimeout(timeOut);
-    };
-
-    var timeOut = setTimeout(failure, IMAGE_TIMEOUT);
-    picture.onerror = failure;
-
-    picture.onload = function() {
-      clearTimeout(timeOut);
-    };
-
-    picture.classList.add('review-author');
-    picture.src = data.author.picture;
-    picture.title = data.author.name;
-    picture.alt = data.author.name;
-    element.replaceChild(picture, element.querySelector('.review-author'));
-    element.querySelector('.review-rating').classList.add('review-rating-' + RATINGS[data.rating - 1]);
-    return element;
   }
 
   showReviewsBtn.addEventListener('click', function() {
